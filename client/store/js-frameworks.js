@@ -1,20 +1,11 @@
 const fetch = require('node-fetch')
 
 const GOT_ALL_FRAMEWORKS_INFO = 'GOT_ALL_FRAMEWORKS_INFO'
-const UPDATED_SORT_ORDER = 'UPDATED_SORT_ORDER'
 
 const gotAllFrameworksInfo = (info) => {
   return {
     type: GOT_ALL_FRAMEWORKS_INFO,
     info
-  }
-}
-
-export const updatedSortOrder = (order, orderBy) => {
-  return {
-    type: UPDATED_SORT_ORDER,
-    order,
-    orderBy
   }
 }
 
@@ -29,9 +20,7 @@ export const getFrameworksInfo = () => {
 }
 
 const initialState = {
-  frameworksDevInfo: [],
-  order: 'asc',
-  orderBy: 'fullName'
+  frameworksDevInfo: []
 }
 
 export default function( state = initialState, action) {
@@ -48,8 +37,6 @@ export default function( state = initialState, action) {
       })
       return {...state, frameworksDevInfo: activeDevInfo}
     }
-    case UPDATED_SORT_ORDER:
-      return {...state, order: action.order, orderBy: action.orderBy}
     default:
       return state
   }
