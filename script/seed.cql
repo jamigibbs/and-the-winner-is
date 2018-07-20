@@ -14,9 +14,9 @@ session.run('CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE')
 
 session.run(`CREATE
 
-(sharkweek:User {name: 'shark-week365', username: 'shark-week365', email:'shark@week.com',password:'1234',googleId:null, createdDate: timestamp(),isAdmin:true}),
-(dragonslayer:User {name:'dragon-slayer', username: 'dragon-slayer', email:'dragon@slayer.com',password:'1234',googleId:null, createdDate: timestamp(),isAdmin:false}),
-(superfly:User {name:'super-fly', username: 'super-fly', email:'super@fly.com',password:'1234',googleId:null, createdDate: timestamp(), isAdmin:false}),
+(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password:'1234',googleId:null, createdDate: timestamp(),isAdmin:true}),
+(dragonslayer:User {name:'shark@week.com', email:'dragon@slayer.com', password:'1234',googleId:null, createdDate: timestamp(),isAdmin:false}),
+(superfly:User {name:'shark@week.com', email:'super@fly.com',password:'1234',googleId:null, createdDate: timestamp(), isAdmin:false}),
 
 (React:Framework {name:'React', createdDate: timestamp()}),
 (Angular:Framework {name:'Angular', createdDate: timestamp()}),

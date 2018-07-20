@@ -1,46 +1,71 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
+import Select from 'react-select'
+import { countries } from './countries'
+import {Grid, FormControl, Input, InputLabel, Button} from '@material-ui/core'
 
-/**
- * COMPONENT
- */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
+    <Grid container spacing={24} direction="row">
+      <Grid container item spacing={24} justify="center" >
+      <Grid item xs={4} >
       <form onSubmit={handleSubmit} name={name}>
+        <FormControl fullWidth>
+          <InputLabel htmlFor="email">Email</InputLabel>
+            <Input
+              id="email"
+              name="email"
+              label="Email"
+              required={true}
+            />
+        </FormControl>
+        {name === 'signup' &&
+          <FormControl fullWidth>
+            <p htmlFor="country">Country</p>
+            <Select
+              id="countries"
+              className="countries"
+              classNamePrefix="select"
+              isDisabled={false}
+              isLoading={false}
+              isClearable={true}
+              name="country"
+              styles={{height: '50px'}}
+              options={countries} />
+          </FormControl>
+        }
+        <FormControl fullWidth>
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <Input
+            id="password"
+            name="password"
+            label="Password"
+            required={true}
+            inputProps={{ type: 'password' }}
+          />
+        </FormControl>
         <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
+          <Button
+            type="submit"
+            size="large"
+            variant="outlined"
+          >
+            {displayName}
+          </Button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <a href="/auth/google">{displayName} with Google</a>
-    </div>
+      </Grid>
+      </Grid>
+    </Grid>
   )
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 const mapLogin = state => {
   return {
     name: 'login',
@@ -61,10 +86,15 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
+
+      const countriesElement = document.getElementsByClassName('select__single-value')
+      const countryName = countriesElement[0].innerText
       const formName = evt.target.name
       const email = evt.target.email.value
+      const countryCode = evt.target.country.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      const country = {code: countryCode, name: countryName}
+      dispatch(auth(email, password, country, formName))
     }
   }
 }
@@ -72,9 +102,6 @@ const mapDispatch = dispatch => {
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
 
-/**
- * PROP TYPES
- */
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,

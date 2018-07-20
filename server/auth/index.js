@@ -4,8 +4,9 @@ const { session, driver } = require('../db')
 
 router.post('/signup', async (req, res, next) => {
   try {
-    const username = req.body.username
     const email = req.body.email
+    const countryCode = req.body.country.code
+    const countryName = req.body.country.name
     const salt = crypto.randomBytes(16).toString('base64')
     const password = crypto
       .createHash('RSA-SHA256')
@@ -14,15 +15,16 @@ router.post('/signup', async (req, res, next) => {
       .digest('hex')
 
     const query = `
-    CREATE (newuser:User {name: {username}, username: {username}, email: {email}, password: {password}, googleId: '', createdDate: timestamp(), isAdmin: false, salt: {salt}})
-    RETURN newuser
-  `
+    MERGE (c:Country {code: {countryCode}, name: {countryName}})
+    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, googleId: '', createdDate: timestamp(), isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
+    RETURN newuser`
 
     const response = await session.run(query, {
-      username,
       email,
       password,
-      salt
+      salt,
+      countryCode,
+      countryName
     })
 
     const user = response.records[0]._fields[0].properties
