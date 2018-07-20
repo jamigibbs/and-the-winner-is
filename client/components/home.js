@@ -11,7 +11,7 @@ class Home extends Component {
     const { frameworksInfo } = this.props
     return (
       <div>
-        <p>On the home page</p>
+        <p>Frameworks List</p>
         <ul>
         { frameworksInfo &&
           frameworksInfo.map((framework) => {
