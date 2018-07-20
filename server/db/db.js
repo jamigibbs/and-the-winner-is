@@ -1,18 +1,14 @@
-const Sequelize = require('sequelize')
-const pkg = require('../../package.json')
+const neo4j = require('neo4j-driver').v1
 
-const databaseName = pkg.name + (process.env.NODE_ENV === 'test' ? '-test' : '')
+const graphenedbURL = process.env.GRAPHENEDB_BOLT_URL || 'bolt://localhost'
+const graphenedbUser = process.env.GRAPHENEDB_BOLT_USER || 'neo4j'
+const graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD || '1234'
 
-const db = new Sequelize(
-  process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
-  {
-    logging: false
-  }
+const driver = neo4j.driver(
+  graphenedbURL,
+  neo4j.auth.basic(graphenedbUser, graphenedbPass)
 )
-module.exports = db
 
-// This is a global Mocha hook used for resource cleanup.
-// Otherwise, Mocha v4+ does not exit after tests.
-if (process.env.NODE_ENV === 'test') {
-  after('close database connection', () => db.close())
-}
+const session = driver.session()
+
+module.exports = { session, driver }
