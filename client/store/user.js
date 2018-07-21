@@ -20,14 +20,13 @@ export const auth = (email, password, country, method) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password, country})
-    console.log('thunk', {email, password, country})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    history.push('/')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }

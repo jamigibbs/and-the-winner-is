@@ -6,7 +6,8 @@ const columnData = [
   { id: 'fullName', numeric: false, label: 'Framework Name' },
   { id: 'watchersCount', numeric: true, label: 'Watchers Count' },
   { id: 'forksCount', numeric: true, label: 'Forks Count' },
-  { id: 'openIssues', numeric: true, label: 'Open Issues' }
+  { id: 'openIssues', numeric: true, label: 'Open Issues' },
+  { id: 'vote', numeric: true, label: 'Vote for a Framework'}
 ]
 
 const CompareTableHead = ({ order, orderBy, onRequestSort }) => {

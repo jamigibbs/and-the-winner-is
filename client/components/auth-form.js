@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { auth } from '../store'
 import Select from 'react-select'
 import { countries } from './countries'
 import {Grid, FormControl, Input, InputLabel, Button} from '@material-ui/core'
+
+import { auth } from '../store'
 
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
@@ -88,10 +89,15 @@ const mapDispatch = dispatch => {
       evt.preventDefault()
 
       const countriesElement = document.getElementsByClassName('select__single-value')
-      const countryName = countriesElement[0].innerText
+      let countryCode = null, countryName = null
+
+      if(countriesElement.length > 0){
+        countryName = countriesElement[0].innerText
+        countryCode = evt.target.country.value
+      }
+
       const formName = evt.target.name
       const email = evt.target.email.value
-      const countryCode = evt.target.country.value
       const password = evt.target.password.value
       const country = {code: countryCode, name: countryName}
       dispatch(auth(email, password, country, formName))

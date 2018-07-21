@@ -1,16 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Table, TableBody, TableCell, TableRow, Paper } from '@material-ui/core'
-
-import { CompareTableHead } from './'
+import { CompareTableHead, FrameworkVote } from './'
 import { getFrameworksInfo, updatedSortOrder } from '../../store/github-frameworks'
+import { nameSplit } from '../../../util'
 
 class CompareTable extends React.Component {
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.loadData()
-    setInterval(this.loadData, 10000)
+    // setInterval(this.loadData, 20000)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user !== this.props.user) {
+      this.loadData()
+    }
   }
 
   loadData = async () => {
@@ -35,13 +42,9 @@ class CompareTable extends React.Component {
   }
 
   render() {
-    const { frameworksInfo, order, orderBy } = this.props
+    const { frameworksInfo, order, orderBy, user, userVotes } = this.props
 
-    if(this.props.frameworksInfo.length === 0){
-      return (
-        <p>Loading...</p>
-      )
-    }
+    if(this.props.frameworksInfo.length === 0 && !user.email){ return <p>Loading...</p> }
     return (
       <Paper>
         <div>
@@ -58,11 +61,24 @@ class CompareTable extends React.Component {
                   return (
                     <TableRow key={framework.id}>
                       <TableCell component="th" scope="row">
-                        {framework.fullName}
+                        {nameSplit(framework.fullName)}
                       </TableCell>
                       <TableCell numeric>{framework.watchersCount}</TableCell>
                       <TableCell numeric>{framework.forksCount}</TableCell>
                       <TableCell numeric>{framework.openIssues}</TableCell>
+                      <TableCell numeric>
+                        { !user.name ? (
+                            <Link to="/login">
+                              Login to vote for {nameSplit(framework.fullName)}
+                            </Link>
+                          ) : (
+                            <FrameworkVote
+                              name={nameSplit(framework.fullName)}
+                              userVotes={userVotes}
+                            />
+                          )
+                        }
+                      </TableCell>
                     </TableRow>
                   )
                 })}
@@ -82,7 +98,7 @@ const mapStateToProps = (state) => {
   return {
     frameworksInfo: state.githubFrameworks.frameworksDevInfo,
     order: state.githubFrameworks.order,
-    orderBy: state.githubFrameworks.orderBy
+    orderBy: state.githubFrameworks.orderBy,
   }
 }
 
