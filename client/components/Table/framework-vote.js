@@ -1,16 +1,6 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
 
-/*
-  Logged in, never voted
-  Logged in, voted under 24 hours
-
-// If last vote matches name of button, change text to say "voted for react!"
-// else text reads "Vote again in 24 hours"
-
-  Logged in, voted over 24 hours
-*/
-
 class FrameworkVote extends React.Component {
   handleVote = () => {
     console.log('clicked!')
