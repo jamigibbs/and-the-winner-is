@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
+import { voteForFramework } from '../../store/user-activity'
 
-class FrameworkVote extends React.Component {
+class FrameworkVote extends Component {
+
   handleVote = () => {
-    console.log('clicked!')
+    const { name, user, userVotes } = this.props
+    this.props.submitUserVote(name, user, userVotes)
   }
 
   votedButtonText = () => { // eslint-disable-line
     const framework = this.props.name
-    const userVotes = this.props.userVotes.votes
+    const userVotes = this.props.userVotes
     const lastVoteFramework = userVotes[userVotes.length - 1].framework
     const daysSinceLastVote = this.daysSinceLastVote()
 
@@ -34,8 +38,8 @@ class FrameworkVote extends React.Component {
   }
 
   daysSinceLastVote = () => {
-    if(this.props.userVotes.votes.length > 0){
-      const votes = this.props.userVotes.votes
+    if(this.props.userVotes.length > 0){
+      const votes = this.props.userVotes
       const lastVoteTime = votes[votes.length - 1].submitted
       const now = new Date()
       const date2 = new Date(lastVoteTime)
@@ -52,19 +56,19 @@ class FrameworkVote extends React.Component {
     return (
       <div>
         { // never voted
-          userVotes.votes.length === 0 &&
+          userVotes.length === 0 &&
             <Button onClick={this.handleVote}>Vote for {name}</Button>
         }
 
         { // voted in past but last vote is over 24 hours
-          userVotes.votes.length > 0 && daysSinceLastVote > 1 &&
+          userVotes.length > 0 && daysSinceLastVote > 1 &&
             <Button onClick={this.handleVote}>
               {this.votedButtonText()}
             </Button>
         }
 
         { // Voted in past and last vote is under 24 hours
-          userVotes.votes.length > 0 && daysSinceLastVote < 1 &&
+          userVotes.length > 0 && daysSinceLastVote < 1 &&
           <Button disabled={true}>
             {this.votedButtonText()}
           </Button>
@@ -75,4 +79,18 @@ class FrameworkVote extends React.Component {
   }
 }
 
-export default FrameworkVote
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitUserVote: (framework, user) => {
+      dispatch(voteForFramework(framework, user))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FrameworkVote)

@@ -7,10 +7,10 @@ const UserHome = ({user, userVotes}) => {
       <h3>Your Voting History</h3>
       <p>You can change your vote after 24 hours but only your most recent vote will count against the overall framework totals</p>
       <ul>
-        { userVotes.votes &&
-          userVotes.votes.map((vote) => {
+        { userVotes.length > 0 &&
+          userVotes.map((vote) => {
             return (
-              <li key={vote.id.low}>
+              <li key={vote.submitted}>
                 {vote.framework} - {vote.submitted}
               </li>
             )
