@@ -15,6 +15,7 @@ export const countries = [
   {label: "Armenia", value: "AM"},
   {label: "Aruba", value: "AW"},
   {label: "Austria", value: "AT"},
+  {label: "Australia", value: "AU"},
   {label: "Azerbaijan", value: "AZ"},
   {label: "Bahamas", value: "BS"},
   {label: "Bahrain", value: "BH"},

@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import githubFrameworks from './github-frameworks'
+import userActivity from './user-activity'
 
-const reducer = combineReducers({user, githubFrameworks})
+const reducer = combineReducers({user, githubFrameworks, userActivity})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

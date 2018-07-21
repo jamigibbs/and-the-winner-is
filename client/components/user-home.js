@@ -1,34 +1,24 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 
-/**
- * COMPONENT
- */
-export const UserHome = props => {
-  const {email} = props
-
+const UserHome = ({user, userVotes}) => {
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>Hello, {user.email}!</h3>
+      <h3>Your Voting History</h3>
+      <p>You can change your vote after 24 hours but only your most recent vote will count against the overall framework totals</p>
+      <ul>
+        { userVotes.votes &&
+          userVotes.votes.map((vote) => {
+            return (
+              <li key={vote.id.low}>
+                {vote.framework} - {vote.submitted}
+              </li>
+            )
+          })
+        }
+      </ul>
     </div>
   )
 }
 
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    email: state.user.email
-  }
-}
-
-export default connect(mapState)(UserHome)
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
-}
+export default UserHome

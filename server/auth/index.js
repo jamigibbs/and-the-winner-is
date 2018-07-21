@@ -4,6 +4,8 @@ const { session, driver } = require('../db')
 
 router.post('/signup', async (req, res, next) => {
   try {
+    const now = new Date()
+    const datetime = now.toString()
     const email = req.body.email
     const countryCode = req.body.country.code
     const countryName = req.body.country.name
@@ -16,7 +18,7 @@ router.post('/signup', async (req, res, next) => {
 
     const query = `
     MERGE (c:Country {code: {countryCode}, name: {countryName}})
-    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, googleId: '', createdDate: timestamp(), isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
+    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, googleId: '', createdDate: {datetime}, isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
     RETURN newuser`
 
     const response = await session.run(query, {
@@ -24,7 +26,8 @@ router.post('/signup', async (req, res, next) => {
       password,
       salt,
       countryCode,
-      countryName
+      countryName,
+      datetime
     })
 
     const user = response.records[0]._fields[0].properties
@@ -43,18 +46,16 @@ router.post('/signup', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const email = req.body.email
-    const password = req.body.password
+    const pass = req.body.password
 
     //check if user exists
     let query = `
     MATCH (u:User)
     WHERE u.email = {email}
-    RETURN u
-  `
+    RETURN u`
 
     let response = await session.run(query, {email})
     let user = response.records[0]._fields[0].properties
-
 
     //if the pw is salted in the database
     if (user.salt) {
@@ -68,14 +69,14 @@ router.post('/login', async (req, res, next) => {
         WHERE u.email = {email} and u.password = {password}
         RETURN properties(u)
       `
-      response = await session.run(query, {name: name, password: saltedPW})
+      response = await session.run(query, {email, password: saltedPW})
     } else {
       // seed file user without salted pw
       query = `MATCH (u:User)
-        WHERE u.email = {email} and u.password = {password}
+        WHERE u.email = {email} and u.password = {pass}
         RETURN properties(u)
       `
-      response = await session.run(query, {email, password})
+      response = await session.run(query, {email, pass})
     }
 
     user = response.records[0]._fields[0]
