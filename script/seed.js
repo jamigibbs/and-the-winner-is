@@ -19,6 +19,9 @@ session.run(`CREATE
 (dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password:'1234',googleId:null, createdDate: {dateTime},isAdmin:false}),
 (superfly:User {name:'super@fly.com', email:'super@fly.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
 (testUser:User {name:'test@user.com', email:'test@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
+(user1:User {name:'user1@user.com', email:'user1@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
+(user2:User {name:'user2@user.com', email:'user2@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
+(user3:User {name:'user3@user.com', email:'user3@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
 
 (React:Framework {name:'react', createdDate: {dateTime}}),
 (Angular:Framework {name:'angular.js', createdDate: {dateTime}}),
@@ -33,9 +36,9 @@ session.run(`CREATE
 (swvote2:Vote {name:'Vote', status:'previous', createdDate: "Tue Jul 17 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
 (swvote3:Vote {name:'Vote', status:'latest', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
 (sharkweek)-[:VOTED]->(swvote1)-[:VOTED]->(swvote2)-[:VOTED]->(swvote3),
-(swvote1)-[:FRAMEWORK]->(React),
+(swvote1)-[:FRAMEWORK]->(Angular),
 (swvote2)-[:FRAMEWORK]->(React),
-(swvote3)-[:FRAMEWORK]->(React),
+(swvote3)-[:FRAMEWORK]->(Vue),
 
 (dragonslayer)-[:LOCATION]->(US),
 (dsvote1:Vote {name:'Vote', status:'latest', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
@@ -46,8 +49,23 @@ session.run(`CREATE
 (sfvote1:Vote {name:'Vote', status:'previous', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
 (sfvote2:Vote {name:'Vote', status:'latest', createdDate: {dateTime}}),
 (superfly)-[:VOTED]->(sfvote1)-[:VOTED]->(sfvote2),
-(sfvote1)-[:FRAMEWORK]->(Vue),
+(sfvote1)-[:FRAMEWORK]->(Angular),
 (sfvote2)-[:FRAMEWORK]->(Vue),
+
+(user1)-[:LOCATION]->(US),
+(us1vote1:Vote {name:'Vote', status:'latest', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
+(user1)-[:VOTED]->(us1vote1),
+(us1vote1)-[:FRAMEWORK]->(Ember),
+
+(user2)-[:LOCATION]->(US),
+(us2vote1:Vote {name:'Vote', status:'latest', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
+(user2)-[:VOTED]->(us2vote1),
+(us2vote1)-[:FRAMEWORK]->(Angular),
+
+(user3)-[:LOCATION]->(US),
+(us3vote1:Vote {name:'Vote', status:'latest', createdDate: "Wed Jul 18 2018 12:51:50 GMT-0500 (Central Daylight Time)" }),
+(user3)-[:VOTED]->(us3vote1),
+(us3vote1)-[:FRAMEWORK]->(React),
 
 (testUser)-[:LOCATION]->(AU)
 `, {dateTime})
