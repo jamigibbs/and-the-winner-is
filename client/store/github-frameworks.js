@@ -6,9 +6,9 @@ const UPDATED_SORT_ORDER = 'UPDATED_SORT_ORDER'
 const GOT_ALL_FRAMEWORK_VOTES = 'GOT_ALL_FRAMEWORK_VOTES'
 
 const gotAllFrameworksInfo = info => ({type: GOT_ALL_FRAMEWORKS_INFO, info})
-const gotAllFrameworkVotes = votes => ({type: GOT_ALL_FRAMEWORK_VOTES,votes})
+const gotAllFrameworkVotes = votes => ({type: GOT_ALL_FRAMEWORK_VOTES, votes})
 export const updatedSortOrder = (order, orderBy) => ({
-  type: UPDATED_SORT_ORDER, order,orderBy
+  type: UPDATED_SORT_ORDER, order, orderBy
 })
 
 export const getFrameworksInfo = () => {

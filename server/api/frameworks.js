@@ -23,4 +23,27 @@ router.get('/latest/votes', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// GET: /api/frameworks/:countryCode/votes
+router.get('/:countryCode/votes', async (req, res, next) => {
+  try {
+    const code = req.params.countryCode
+
+    const query = `
+      MATCH (c:Country {code: {code}})<-[:LOCATION]-(u:User)-[:VOTED*]->(v:Vote {status: 'latest'})-[:FRAMEWORK]->(f:Framework)
+      RETURN f.name as framework, count(v) as votes
+    `
+
+    const data = await session.run(query, {code})
+
+    const votes = data.records.map(record => {
+      const framework = record._fields[0]
+      const total = record._fieldLookup.votes
+      return { framework, total}
+    })
+
+    res.json(votes)
+    session.close()
+  } catch (err) { next(err) }
+})
+
 module.exports = router
