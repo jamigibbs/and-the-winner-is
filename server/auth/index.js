@@ -4,6 +4,12 @@ const { session, driver } = require('../db')
 
 router.post('/signup', async (req, res, next) => {
   try {
+
+    if(req.cookies.atwi){
+      res.status(403)
+      throw new Error('Please log in to your existing account')
+    }
+
     const now = new Date()
     const datetime = now.toString()
     const email = req.body.email
@@ -31,11 +37,13 @@ router.post('/signup', async (req, res, next) => {
     })
 
     const user = response.records[0]._fields[0].properties
+
     req.login(user, err => (err ? next(err) : res.json(user)))
+
     driver.close()
     session.close()
   } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
+    if (err.code === 'Neo.ClientError.Schema.ConstraintValidationFailed') {
       res.status(401).send('User already exists')
     } else {
       next(err)
@@ -80,7 +88,10 @@ router.post('/login', async (req, res, next) => {
     }
 
     user = response.records[0]._fields[0]
+
+    res.cookie('atwi', new Date())
     req.login(user, err => (err ? next(err) : res.json(user)))
+
     driver.close()
     session.close()
   } catch (err) {
@@ -90,7 +101,6 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/logout', (req, res) => {
   req.logout()
-  req.session.destroy()
   res.redirect('/')
 })
 
