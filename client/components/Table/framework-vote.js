@@ -12,40 +12,33 @@ class FrameworkVote extends Component {
     this.props.getFrameworkVotes()
   }
 
-  votedButtonText = () => { // eslint-disable-line
-    const framework = this.props.name
-    const userVotes = this.props.userVotes
-    const lastVoteFramework = userVotes[userVotes.length - 1].framework
-    const daysSinceLastVote = this.daysSinceLastVote()
+  lastVotedForCheck = (lastFramework, days) => {
+    const { name } = this.props
+    return days >= 1 && lastFramework === name ||
+    days < 1 && lastFramework === name
+  }
 
-    // Voted in past but it was over 24 hours
-    if (daysSinceLastVote >= 1 && lastVoteFramework === framework){
-      return `You last voted for ${framework}`
-    }
+  votedButtonText = () => {
+    const {name, userVotes} = this.props
+    const lastFramework = userVotes[userVotes.length - 1].framework
+    const days = this.daysSinceLastVote()
 
-    if (daysSinceLastVote >= 1 && lastVoteFramework !== framework){
-      return `Change vote to ${framework}`
-    }
-
-    // Voted in past but it was within 24 hours
-    if (daysSinceLastVote < 1 && lastVoteFramework === framework){
-      return `You last voted for ${framework}`
-    }
-
-    if (daysSinceLastVote < 1 && lastVoteFramework !== framework){
-      return 'Vote again in 24 hours'
-    }
-
-    return "Missed a condition"
+    if (this.lastVotedForCheck(lastFramework, days)){
+      return `You last voted for ${name}`
+    } else if (days >= 1 && lastFramework !== name){
+      return `Change vote to ${name}`
+    } else if (days < 1 && lastFramework !== name){
+      return 'Change vote in 24 hours'
+    } else { return null }
   }
 
   daysSinceLastVote = () => {
     if(this.props.userVotes.length > 0){
-      const votes = this.props.userVotes
-      const lastVoteTime = votes[votes.length - 1].submitted
-      const now = new Date()
-      const date2 = new Date(lastVoteTime)
-      const timeDiff = date2 - now
+      const votes = this.props.userVotes,
+        lastVoteTime = votes[votes.length - 1].submitted,
+        now = new Date(),
+        date2 = new Date(lastVoteTime),
+        timeDiff = date2 - now
 
       return Math.abs( (timeDiff / (1000 * 3600 * 24) ) )
     }
@@ -57,20 +50,17 @@ class FrameworkVote extends Component {
 
     return (
       <div>
-        { // never voted
-          userVotes.length === 0 &&
-            <Button onClick={this.handleVote}>Vote for {name}</Button>
+        { userVotes.length === 0 &&
+          <Button onClick={this.handleVote}>Vote for {name}</Button>
         }
 
-        { // voted in past but last vote is over 24 hours
-          userVotes.length > 0 && daysSinceLastVote > 1 &&
-            <Button onClick={this.handleVote}>
-              {this.votedButtonText()}
-            </Button>
+        { userVotes.length > 0 && daysSinceLastVote > 1 &&
+          <Button onClick={this.handleVote}>
+            {this.votedButtonText()}
+          </Button>
         }
 
-        { // Voted in past and last vote is under 24 hours
-          userVotes.length > 0 && daysSinceLastVote < 1 &&
+        { userVotes.length > 0 && daysSinceLastVote < 1 &&
           <Button disabled={true}>
             {this.votedButtonText()}
           </Button>
