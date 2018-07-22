@@ -8,13 +8,14 @@ const passport = require('passport')
 const { session } = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
+const cookieParser = require('cookie-parser')
 const socketio = require('socket.io')
 module.exports = app
 
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.email))
+passport.serializeUser( (user, done) => done(null, user.email))
 
 passport.deserializeUser(async (email, done) => {
   try {
@@ -38,10 +39,12 @@ const createApp = () => {
   // compression middleware
   app.use(compression())
 
+  app.use(cookieParser())
+
   // session middleware with passport
   app.use(
     expressSession({
-      secret: process.env.SESSION_SECRET || 'hey, set a session secret',
+      secret: process.env.SESSION_SECRET || 'super secret squirrel secret',
       // store: sessionStore,
       resave: false,
       saveUninitialized: false
