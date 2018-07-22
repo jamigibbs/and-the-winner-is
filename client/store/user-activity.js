@@ -3,27 +3,14 @@ import axios from 'axios'
 const GOT_ALL_USER_VOTES = 'GOT_ALL_USER_VOTES'
 const VOTED_FOR_FRAMEWORK = 'VOTED_FOR_FRAMEWORK'
 
-const gotAllUserVotes = (votes) => {
-  return {
-    type: GOT_ALL_USER_VOTES,
-    votes
-  }
-}
-
-const votedForFramework = (vote) => {
-  return {
-    type: VOTED_FOR_FRAMEWORK,
-    vote
-  }
-}
+const gotAllUserVotes = votes => ({type: GOT_ALL_USER_VOTES, votes})
+const votedForFramework = vote => ({type: VOTED_FOR_FRAMEWORK, vote})
 
 export const getAllUserVotes = (email) => {
  return async dispatch => {
    try {
     const { data } = await axios.get('/api/auth/user/votes/all/', {
-      params: {
-        email
-      }
+      params: { email }
     })
     dispatch(gotAllUserVotes(data.votes))
    } catch (err) { console.log(err)}

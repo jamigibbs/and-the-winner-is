@@ -5,27 +5,11 @@ const GOT_ALL_FRAMEWORKS_INFO = 'GOT_ALL_FRAMEWORKS_INFO'
 const UPDATED_SORT_ORDER = 'UPDATED_SORT_ORDER'
 const GOT_ALL_FRAMEWORK_VOTES = 'GOT_ALL_FRAMEWORK_VOTES'
 
-const gotAllFrameworksInfo = (info) => {
-  return {
-    type: GOT_ALL_FRAMEWORKS_INFO,
-    info
-  }
-}
-
-export const updatedSortOrder = (order, orderBy) => {
-  return {
-    type: UPDATED_SORT_ORDER,
-    order,
-    orderBy
-  }
-}
-
-const gotAllFrameworkVotes = (votes) => {
-  return {
-    type: GOT_ALL_FRAMEWORK_VOTES,
-    votes
-  }
-}
+const gotAllFrameworksInfo = info => ({type: GOT_ALL_FRAMEWORKS_INFO, info})
+const gotAllFrameworkVotes = votes => ({type: GOT_ALL_FRAMEWORK_VOTES,votes})
+export const updatedSortOrder = (order, orderBy) => ({
+  type: UPDATED_SORT_ORDER, order,orderBy
+})
 
 export const getFrameworksInfo = () => {
   return async dispatch => {
@@ -70,7 +54,6 @@ export default function( state = initialState, action) {
     case UPDATED_SORT_ORDER:
       return {...state, order: action.order, orderBy: action.orderBy}
     case GOT_ALL_FRAMEWORK_VOTES:
-      console.log('reducer', action.votes)
       return {...state, frameworkVotes: action.votes}
     default:
       return state

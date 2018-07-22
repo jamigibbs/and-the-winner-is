@@ -11,7 +11,7 @@ class CompareTable extends React.Component {
 
   componentWillMount = () => {
     this.loadData()
-    // setInterval(this.loadData, 20000)
+    setInterval(this.loadData, 600000) // 10 min
   }
 
   componentWillReceiveProps(nextProps) {

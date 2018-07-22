@@ -15,13 +15,13 @@ session.run('CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE')
 } )
 
 session.run(`CREATE
-(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password:'1234',googleId:null, createdDate: {dateTime},isAdmin:true}),
-(dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password:'1234',googleId:null, createdDate: {dateTime},isAdmin:false}),
-(superfly:User {name:'super@fly.com', email:'super@fly.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
-(testUser:User {name:'test@user.com', email:'test@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
-(user1:User {name:'user1@user.com', email:'user1@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
-(user2:User {name:'user2@user.com', email:'user2@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
-(user3:User {name:'user3@user.com', email:'user3@user.com',password:'1234',googleId:null, createdDate: {dateTime}, isAdmin:false}),
+(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password:'1234', createdDate: {dateTime},isAdmin:true}),
+(dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password:'1234', createdDate: {dateTime},isAdmin:false}),
+(superfly:User {name:'super@fly.com', email:'super@fly.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(testUser:User {name:'test@user.com', email:'test@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(user1:User {name:'user1@user.com', email:'user1@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(user2:User {name:'user2@user.com', email:'user2@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(user3:User {name:'user3@user.com', email:'user3@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
 
 (React:Framework {name:'react', createdDate: {dateTime}}),
 (Angular:Framework {name:'angular.js', createdDate: {dateTime}}),
