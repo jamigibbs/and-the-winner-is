@@ -24,7 +24,7 @@ router.post('/signup', async (req, res, next) => {
 
     const query = `
     MERGE (c:Country {code: {countryCode}, name: {countryName}})
-    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, googleId: '', createdDate: {datetime}, isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
+    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, createdDate: {datetime}, isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
     RETURN newuser`
 
     const response = await session.run(query, {
@@ -107,7 +107,5 @@ router.post('/logout', (req, res) => {
 router.get('/me', (req, res) => {
   res.json(req.user)
 })
-
-router.use('/google', require('./google'))
 
 module.exports = router

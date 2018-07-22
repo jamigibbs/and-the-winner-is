@@ -9,8 +9,6 @@ const { session } = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
 const cookieParser = require('cookie-parser')
-const socketio = require('socket.io')
-module.exports = app
 
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
@@ -82,17 +80,14 @@ const createApp = () => {
     console.error(err.stack)
     res.status(err.status || 500).send(err.message || 'Internal server error.')
   })
+
 }
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () =>
+  app.listen(PORT, () =>
     console.log(`Mixing it up on port ${PORT}`)
   )
-
-  // set up our socket control center
-  const io = socketio(server)
-  require('./socket')(io)
 }
 
 async function bootApp() {
@@ -108,3 +103,5 @@ if (require.main === module) {
 } else {
   createApp()
 }
+
+module.exports = app

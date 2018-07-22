@@ -46,9 +46,6 @@
     "morgan": "^1.8.1",
     "neo4j-driver": "^1.6.2",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0",
-    "pg": "^6.1.2",
-    "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.8",
     "react": "^16.3.1",
     "react-dom": "^16.0.0",
@@ -57,8 +54,7 @@
     "react-select": "^2.0.0-beta.7",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
-    "redux-thunk": "^2.2.0",
-    "socket.io": "^2.0.3"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
