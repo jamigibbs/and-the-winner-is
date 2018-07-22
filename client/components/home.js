@@ -10,15 +10,15 @@ class Home extends Component {
 
   componentDidMount(){
     this.props.getFrameworkVotes()
-
     if(this.props.user.email){
       this.props.getUserVotes(this.props.user.email)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user !== this.props.user) {
-      this.props.getUserVotes(nextProps.user.email)
+    const { user } = this.props
+    if (nextProps.user !== user && user.email) {
+      this.props.getUserVotes(user.email)
     }
   }
 
