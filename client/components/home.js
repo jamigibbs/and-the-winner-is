@@ -2,27 +2,32 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { CompareTable } from './Table'
 import UserHome from './user-home'
+import TotalVotes from './total-votes'
 import { getAllUserVotes } from '../store/user-activity'
+import { getAllFrameworkVotes } from '../store/github-frameworks'
 
 class Home extends Component {
 
   componentDidMount(){
+    this.props.getFrameworkVotes()
+
     if(this.props.user.email){
-      this.props.getVotes(this.props.user.email)
+      this.props.getUserVotes(this.props.user.email)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user !== this.props.user) {
-      this.props.getVotes(nextProps.user.email)
+      this.props.getUserVotes(nextProps.user.email)
     }
   }
 
   render(){
-    const { user, votes} = this.props
+    const { user, votes, frameworkVotes} = this.props
     return (
       <div>
-        <p>Frameworks List</p>
+        <TotalVotes frameworkVotes={frameworkVotes}/>
+        <h3>Frameworks List</h3>
         <CompareTable
           user={user}
           userVotes={votes}
@@ -41,14 +46,18 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    votes: state.userActivity.votes
+    votes: state.userActivity.votes,
+    frameworkVotes: state.githubFrameworks.frameworkVotes
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getVotes: (user) => {
+    getUserVotes: (user) => {
       dispatch(getAllUserVotes(user))
+    },
+    getFrameworkVotes: () => {
+      dispatch(getAllFrameworkVotes())
     }
   }
 }

@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { voteForFramework } from '../../store/user-activity'
+import { getAllFrameworkVotes } from '../../store/github-frameworks'
 
 class FrameworkVote extends Component {
 
-  handleVote = () => {
+  handleVote = async () => {
     const { name, user, userVotes } = this.props
-    this.props.submitUserVote(name, user, userVotes)
+    await this.props.submitUserVote(name, user, userVotes)
+    this.props.getFrameworkVotes()
   }
 
   votedButtonText = () => { // eslint-disable-line
@@ -87,8 +89,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitUserVote: (framework, user) => {
-      dispatch(voteForFramework(framework, user))
+    submitUserVote: (framework, user, userVotes) => {
+      dispatch(voteForFramework(framework, user, userVotes))
+    },
+    getFrameworkVotes: () => {
+      dispatch(getAllFrameworkVotes())
     }
   }
 }

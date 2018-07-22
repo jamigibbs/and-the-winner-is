@@ -31,6 +31,7 @@ export const getAllUserVotes = (email) => {
 }
 
 export const voteForFramework = (framework, user, userVotes) => {
+  console.log('thunk', userVotes)
   return async dispatch => {
     try {
       const { data } = await axios.post(`/api/auth/user/vote/`, {

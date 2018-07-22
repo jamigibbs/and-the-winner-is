@@ -1,7 +1,9 @@
 const fetch = require('node-fetch')
+const axios = require('axios')
 
 const GOT_ALL_FRAMEWORKS_INFO = 'GOT_ALL_FRAMEWORKS_INFO'
 const UPDATED_SORT_ORDER = 'UPDATED_SORT_ORDER'
+const GOT_ALL_FRAMEWORK_VOTES = 'GOT_ALL_FRAMEWORK_VOTES'
 
 const gotAllFrameworksInfo = (info) => {
   return {
@@ -18,6 +20,13 @@ export const updatedSortOrder = (order, orderBy) => {
   }
 }
 
+const gotAllFrameworkVotes = (votes) => {
+  return {
+    type: GOT_ALL_FRAMEWORK_VOTES,
+    votes
+  }
+}
+
 export const getFrameworksInfo = () => {
   return async dispatch => {
     try {
@@ -28,10 +37,20 @@ export const getFrameworksInfo = () => {
   }
 }
 
+export const getAllFrameworkVotes = () => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.get('/api/frameworks/latest/votes')
+      dispatch(gotAllFrameworkVotes(data))
+    } catch (err) { console.log(err) }
+  }
+}
+
 const initialState = {
   frameworksDevInfo: [],
   order: 'asc',
-  orderBy: 'fullName'
+  orderBy: 'fullName',
+  frameworkVotes: []
 }
 
 export default function( state = initialState, action) {
@@ -50,6 +69,9 @@ export default function( state = initialState, action) {
     }
     case UPDATED_SORT_ORDER:
       return {...state, order: action.order, orderBy: action.orderBy}
+    case GOT_ALL_FRAMEWORK_VOTES:
+      console.log('reducer', action.votes)
+      return {...state, frameworkVotes: action.votes}
     default:
       return state
   }

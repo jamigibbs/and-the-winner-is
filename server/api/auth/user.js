@@ -42,7 +42,7 @@ router.post('/vote', requireUserLogin, async (req, res, next) => {
     const dateTime = now.toString()
     let query, data
 
-    if(userVotes){
+    if(userVotes.length > 0){
       // Existing user votes
       query = `
         MATCH (u:User {email: {email}}),
