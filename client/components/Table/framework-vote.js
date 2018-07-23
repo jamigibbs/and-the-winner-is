@@ -50,17 +50,17 @@ class FrameworkVote extends Component {
     return (
       <div>
         { userVotes.length === 0 &&
-          <Button onClick={this.handleVote}>Vote for {name}</Button>
+          <Button variant="outlined" size="small" onClick={this.handleVote}>Vote for {name}</Button>
         }
 
         { userVotes.length > 0 && daysSinceLastVote > 1 &&
-          <Button onClick={this.handleVote}>
+          <Button variant="outlined" size="small" onClick={this.handleVote}>
             {this.votedButtonText()}
           </Button>
         }
 
         { userVotes.length > 0 && daysSinceLastVote < 1 &&
-          <Button disabled={true}>
+          <Button variant="outlined" size="small" disabled={true}>
             {this.votedButtonText()}
           </Button>
         }

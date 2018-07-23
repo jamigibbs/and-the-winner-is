@@ -7,6 +7,12 @@ import { CompareTableHead, FrameworkVote } from './'
 import { getFrameworksInfo, updatedSortOrder } from '../../store/github-frameworks'
 import { nameSplit } from '../../../util'
 
+const styles = {
+  logo: {
+    paddingRight: 10
+  }
+}
+
 class CompareTable extends React.Component {
 
   componentWillMount = () => {
@@ -61,6 +67,7 @@ class CompareTable extends React.Component {
                   return (
                     <TableRow key={framework.id}>
                       <TableCell component="th" scope="row">
+                        <img style={styles.logo} src={`img/${nameSplit(framework.fullName)}.png`} width={20} alt={framework.fullName} />
                         {nameSplit(framework.fullName)}
                       </TableCell>
                       <TableCell numeric>{framework.watchersCount}</TableCell>
