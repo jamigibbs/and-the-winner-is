@@ -31,7 +31,6 @@ describe('Framework Thunk Creators', () => {
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('GOT_ALL_FRAMEWORKS_INFO')
       expect(actions[0].info).to.be.an('array')
-      expect(actions[0].info).to.have.length(4)
     })
   })
 
