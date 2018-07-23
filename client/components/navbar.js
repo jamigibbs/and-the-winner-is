@@ -17,7 +17,7 @@ const styles = {
   }
 }
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, user}) => (
   <div>
     <AppBar position="static" color="default">
     <Toolbar>
@@ -26,14 +26,13 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       </Link>
         {isLoggedIn ? (
           <div>
-            {/* The navbar will show these links after you log in */}
-            <a href="#" onClick={handleClick}>
+            <span>Hello, {user.email}!</span>
+            <a style={styles.link} href="#" onClick={handleClick}>
               Logout
             </a>
           </div>
         ) : (
           <div>
-            {/* The navbar will show these links before you log in */}
             <Link to="/login">Login</Link>
             <Link style={styles.link} to="/signup">Sign Up</Link>
           </div>
@@ -45,7 +44,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
 
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.email
+    isLoggedIn: !!state.user.email,
+    user: state.user
   }
 }
 

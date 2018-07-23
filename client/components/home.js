@@ -7,14 +7,6 @@ import { getAllUserVotes } from '../store/user-activity'
 import { getAllFrameworkVotes } from '../store/github-frameworks'
 import {me} from '../store'
 
-const styles = {
-  header: {
-    textAlign: 'center',
-    fontWeight: 100,
-    margin: '40px 0'
-  }
-}
-
 class Home extends Component {
 
   componentDidMount(){
@@ -37,7 +29,6 @@ class Home extends Component {
     return (
       <div>
         <TotalVotes frameworkVotes={frameworkVotes}/>
-        <h3 style={styles.header }>JS Framework Comparison Chart</h3>
         <CompareTable
           user={user}
           userVotes={votes}

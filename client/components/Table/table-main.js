@@ -10,6 +10,11 @@ import { nameSplit } from '../../../util'
 const styles = {
   logo: {
     paddingRight: 10
+  },
+  header: {
+    textAlign: 'center',
+    fontWeight: 100,
+    margin: '40px 0'
   }
 }
 
@@ -52,8 +57,9 @@ class CompareTable extends React.Component {
 
     if(this.props.frameworksInfo.length === 0 && !user.email){ return <p>Loading...</p> }
     return (
+      <div>
+        <h3 style={styles.header }>JS Framework Comparison Chart</h3>
       <Paper>
-        <div>
           <Table aria-labelledby="Compare Popular JS Frameworks">
             <CompareTableHead
               order={order}
@@ -91,8 +97,8 @@ class CompareTable extends React.Component {
                 })}
             </TableBody>
           </Table>
-        </div>
       </Paper>
+      </div>
     )
   }
 }
