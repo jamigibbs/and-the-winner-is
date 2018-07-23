@@ -18,7 +18,7 @@ const createTestUser = async () => {
     .digest('hex')
 
   const query = `
-  CREATE (newuser:User {name: {email}, email: {email}, password: {password},  createdDate: timestamp(), isAdmin: false})
+  CREATE (newuser:User {name: {email}, email: {email}, password: {password}, salt:{salt}, salt:{salt}, ,  createdDate: timestamp(), isAdmin: false})
     RETURN newuser`
 
   await session.run(query, { email: user.email, password, salt })
@@ -52,7 +52,7 @@ describe("Authed Routes", () => {
     session.close()
   })
 
-  it('GET: api/auth/user/votes/all/?email=example@email.com', () => {
+  xit('GET: api/auth/user/votes/all/?email=example@email.com', () => {
     return promisedAuthRequest().then(authenticatedagent => {
       const req = authenticatedagent.get(`/api/auth/user/votes/all/?email=${user.email}`)
         .expect(200)
