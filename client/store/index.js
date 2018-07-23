@@ -1,5 +1,5 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
-import createLogger from 'redux-logger'
+//import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
@@ -11,8 +11,16 @@ const reducer = combineReducers({
   githubFrameworks,
   userActivity
 })
+
+let middlewareTools = [ thunkMiddleware ]
+
+if (process.env.NODE_ENV !== 'production') {
+  let createLogger = require('redux-logger')
+  middlewareTools = [...middlewareTools, createLogger({collapsed: true})]
+}
+
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+  applyMiddleware(...middlewareTools)
 )
 const store = createStore(reducer, middleware)
 
