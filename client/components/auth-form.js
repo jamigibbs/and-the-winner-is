@@ -7,6 +7,20 @@ import {Grid, FormControl, Input, InputLabel, Button} from '@material-ui/core'
 
 import { auth } from '../store'
 
+const styles = {
+  form: {
+    marginTop: 40
+  },
+  submit: {
+    marginTop: 40
+  },
+  label: {
+    color: '#757575',
+    marginBottom: 10,
+    marginTop: 20
+  }
+}
+
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
@@ -14,7 +28,7 @@ const AuthForm = props => {
     <Grid container spacing={24} direction="row">
       <Grid container item spacing={24} justify="center" >
       <Grid item xs={4} >
-      <form onSubmit={handleSubmit} name={name}>
+      <form style={styles.form} onSubmit={handleSubmit} name={name}>
         <FormControl fullWidth>
           <InputLabel htmlFor="email">Email</InputLabel>
             <Input
@@ -26,7 +40,7 @@ const AuthForm = props => {
         </FormControl>
         {name === 'signup' &&
           <FormControl fullWidth>
-            <p htmlFor="country">Country</p>
+            <p style={styles.label} htmlFor="country">Country</p>
             <Select
               id="countries"
               className="countries"
@@ -51,6 +65,7 @@ const AuthForm = props => {
         </FormControl>
         <div>
           <Button
+            style={styles.submit}
             type="submit"
             size="large"
             variant="outlined"
