@@ -39,7 +39,7 @@ function promisedAuthRequest() {
   })
 }
 
-describe("routes", () => {
+describe("Authed Routes", () => {
 
   before( async () => {
     await createTestUser()

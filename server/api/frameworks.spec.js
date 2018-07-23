@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../../server')
 const { session, driver } = require('../db')
 
-describe('Framework votes public routes', () => {
+describe('Public Routes', () => {
 
   after('close db session', () => {
     driver.close()
