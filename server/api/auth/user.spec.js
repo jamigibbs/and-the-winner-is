@@ -18,7 +18,7 @@ const createTestUser = async () => {
     .digest('hex')
 
   const query = `
-  CREATE (newuser:User {name: {email}, email: {email}, password: {password}, salt:{salt}, salt:{salt}, ,  createdDate: timestamp(), isAdmin: false})
+  CREATE (newuser:User {name: {email}, email: {email}, password: {password}, salt:{salt}, createdDate: timestamp(), isAdmin: false})
     RETURN newuser`
 
   await session.run(query, { email: user.email, password, salt })
