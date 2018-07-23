@@ -1,6 +1,16 @@
 const { session, driver } = require('../server/db')
+const { seedPW } = require('../secrets')
+const crypto = require('crypto')
+
 const now = new Date()
 const dateTime = now.toString()
+
+const salt = crypto.randomBytes(16).toString('base64')
+const password = crypto
+  .createHash('RSA-SHA256')
+  .update(seedPW)
+  .update(salt)
+  .digest('hex')
 
 session.run('MATCH (n) DETACH DELETE n')
 .then(() => {
@@ -15,21 +25,21 @@ session.run('CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE')
 } )
 
 session.run(`CREATE
-(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password:'1234', createdDate: {dateTime},isAdmin:true}),
-(dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password:'1234', createdDate: {dateTime},isAdmin:false}),
-(superfly:User {name:'super@fly.com', email:'super@fly.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(testUser:User {name:'test@user.com', email:'test@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user1:User {name:'user1@user.com', email:'user1@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user2:User {name:'user2@user.com', email:'user2@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user3:User {name:'user3@user.com', email:'user3@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password: {password}, createdDate: {dateTime},isAdmin:true, salt: {salt}}),
+(dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password: {password}, createdDate: {dateTime},isAdmin:false, salt: {salt}}),
+(superfly:User {name:'super@fly.com', email:'super@fly.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(testUser:User {name:'test@user.com', email:'test@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user1:User {name:'user1@user.com', email:'user1@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user2:User {name:'user2@user.com', email:'user2@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user3:User {name:'user3@user.com', email:'user3@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
 
-(user4:User {name:'user4@user.com', email:'user4@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user5:User {name:'user5@user.com', email:'user5@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user6:User {name:'user6@user.com', email:'user6@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user7:User {name:'user7@user.com', email:'user7@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user8:User {name:'user8@user.com', email:'user8@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user9:User {name:'user9@user.com', email:'user9@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
-(user10:User {name:'user10@user.com', email:'user10@user.com',password:'1234', createdDate: {dateTime}, isAdmin:false}),
+(user4:User {name:'user4@user.com', email:'user4@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user5:User {name:'user5@user.com', email:'user5@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user6:User {name:'user6@user.com', email:'user6@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user7:User {name:'user7@user.com', email:'user7@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user8:User {name:'user8@user.com', email:'user8@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user9:User {name:'user9@user.com', email:'user9@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
+(user10:User {name:'user10@user.com', email:'user10@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
 
 (React:Framework {name:'react', createdDate: {dateTime}}),
 (Angular:Framework {name:'angular.js', createdDate: {dateTime}}),
@@ -112,7 +122,7 @@ session.run(`CREATE
 (us10vote1)-[:FRAMEWORK]->(Angular),
 
 (testUser)-[:LOCATION]->(AU)
-`, {dateTime})
+`, {dateTime, password, salt})
 .then((results) => {
   console.log(results.summary.counters)
   console.log('DB Successfully Seeded')

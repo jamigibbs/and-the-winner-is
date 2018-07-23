@@ -4,9 +4,7 @@ import { CompareTable } from './Table'
 import UserHome from './user-home'
 import TotalVotes from './total-votes'
 import { CircularProgress } from '@material-ui/core'
-import { getAllUserVotes } from '../store/user-activity'
-import { getAllFrameworkVotes } from '../store/github-frameworks'
-import {me} from '../store'
+import { getAllUserVotes, getAllFrameworkVotes, me } from '../store'
 
 const styles = {
   loader: {

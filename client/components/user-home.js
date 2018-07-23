@@ -25,28 +25,29 @@ const UserHome = ({ userVotes}) => {
         <Grid item xs={12}>
           <Grid container justify="center" spacing={16}>
             <Paper style={styles.table}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Framework</TableCell>
-                  <TableCell numeric>Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {userVotes.length > 0 &&
-                  userVotes.map(vote => {
-                    return (
-                      <TableRow key={vote.framework}>
-                        <TableCell component="th" scope="row">
-                          {vote.framework}
-                        </TableCell>
-                        <TableCell numeric>{vote.submitted}</TableCell>
-                      </TableRow>
-                    )
-                  })
-                }
-              </TableBody>
-            </Table>
+            { userVotes.length > 0 ? (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Framework</TableCell>
+                    <TableCell numeric>Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userVotes.map(vote => {
+                      return (
+                        <TableRow key={vote.framework}>
+                          <TableCell component="th" scope="row">
+                            {vote.framework}
+                          </TableCell>
+                          <TableCell numeric>{vote.submitted}</TableCell>
+                        </TableRow>
+                      )
+                    })
+                  }
+                </TableBody>
+              </Table>
+            ) : (<p style={styles.info}>You haven't voted yet</p>)}
             </Paper>
           </Grid>
         </Grid>

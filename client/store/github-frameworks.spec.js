@@ -8,7 +8,7 @@ const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
 const githubUrl = 'https://api.github.com/search/repositories?q=repo:angular/angular.js%20repo:facebook/react%20repo:emberjs/ember.js%20repo:vuejs/vue'
 
-describe('thunk creators', () => {
+describe('Framework Thunk Creators', () => {
   let store
   let mockAxios
 
@@ -31,7 +31,6 @@ describe('thunk creators', () => {
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('GOT_ALL_FRAMEWORKS_INFO')
       expect(actions[0].info).to.be.an('array')
-      expect(actions[0].info).to.have.length(4)
     })
   })
 
