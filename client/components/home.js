@@ -5,11 +5,13 @@ import UserHome from './user-home'
 import TotalVotes from './total-votes'
 import { getAllUserVotes } from '../store/user-activity'
 import { getAllFrameworkVotes } from '../store/github-frameworks'
+import {me} from '../store'
 
 class Home extends Component {
 
   componentDidMount(){
     this.props.getFrameworkVotes()
+    this.props.getUser()
     if(this.props.user.email){
       this.props.getUserVotes(this.props.user.email)
     }
@@ -27,7 +29,6 @@ class Home extends Component {
     return (
       <div>
         <TotalVotes frameworkVotes={frameworkVotes}/>
-        <h3>Frameworks List</h3>
         <CompareTable
           user={user}
           userVotes={votes}
@@ -58,6 +59,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getFrameworkVotes: () => {
       dispatch(getAllFrameworkVotes())
+    },
+    getUser: () => {
+      dispatch(me())
     }
   }
 }

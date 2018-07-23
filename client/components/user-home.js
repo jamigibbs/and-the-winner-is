@@ -1,22 +1,56 @@
 import React from 'react'
+import { Grid, Table, TableHead, TableBody, TableCell, TableRow, Paper } from '@material-ui/core'
 
-const UserHome = ({user, userVotes}) => {
+const styles = {
+  header: {
+    textAlign: 'center',
+    fontWeight: 100,
+    margin: '40px 0'
+  },
+  info: {
+    textAlign: 'center'
+  },
+  table: {
+    width: 700,
+    marginTop: 40
+  }
+}
+
+const UserHome = ({ userVotes}) => {
   return (
     <div>
-      <h3>Hello, {user.email}!</h3>
-      <h3>Your Voting History</h3>
-      <p>You can change your vote after 24 hours but only your most recent vote will count against the overall framework totals</p>
-      <ul>
-        { userVotes.length > 0 &&
-          userVotes.map((vote) => {
-            return (
-              <li key={vote.submitted}>
-                {vote.framework} - {vote.submitted}
-              </li>
-            )
-          })
-        }
-      </ul>
+      <h3 style={styles.header}>Your Voting History</h3>
+      <p style={styles.info}>You can change your vote after 24 hours but only your most recent vote will count against the overall framework totals</p>
+      <Grid container spacing={16}>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={16}>
+            <Paper style={styles.table}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Framework</TableCell>
+                  <TableCell numeric>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {userVotes.length > 0 &&
+                  userVotes.map(vote => {
+                    return (
+                      <TableRow key={vote.framework}>
+                        <TableCell component="th" scope="row">
+                          {vote.framework}
+                        </TableCell>
+                        <TableCell numeric>{vote.submitted}</TableCell>
+                      </TableRow>
+                    )
+                  })
+                }
+              </TableBody>
+            </Table>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   )
 }
