@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Table, TableBody, TableCell, TableRow, Paper } from '@material-ui/core'
+import { Table, TableBody, TableCell, TableRow, Paper, CircularProgress } from '@material-ui/core'
 import { CompareTableHead, FrameworkVote } from './'
 import { getFrameworksInfo, updatedSortOrder } from '../../store/github-frameworks'
 import { nameSplit } from '../../../util'
@@ -15,6 +15,11 @@ const styles = {
     textAlign: 'center',
     fontWeight: 100,
     margin: '40px 0'
+  },
+  loader: {
+    margin: '0 auto',
+    display: 'table',
+    marginTop: 100
   }
 }
 
@@ -55,7 +60,10 @@ class CompareTable extends React.Component {
   render() {
     const { frameworksInfo, order, orderBy, user, userVotes } = this.props
 
-    if(this.props.frameworksInfo.length === 0 && !user.email){ return <p>Loading...</p> }
+    if(frameworksInfo.length < 1 && !user.email){ return (
+      <CircularProgress style={styles.loader} size={50} />
+    )}
+
     return (
       <div>
         <h3 style={styles.header }>JS Framework Comparison Chart</h3>

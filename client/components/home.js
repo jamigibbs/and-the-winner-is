@@ -3,9 +3,18 @@ import { connect } from 'react-redux'
 import { CompareTable } from './Table'
 import UserHome from './user-home'
 import TotalVotes from './total-votes'
+import { CircularProgress } from '@material-ui/core'
 import { getAllUserVotes } from '../store/user-activity'
 import { getAllFrameworkVotes } from '../store/github-frameworks'
 import {me} from '../store'
+
+const styles = {
+  loader: {
+    margin: '0 auto',
+    display: 'table',
+    marginTop: 40
+  }
+}
 
 class Home extends Component {
 
@@ -26,6 +35,10 @@ class Home extends Component {
 
   render(){
     const { user, votes, frameworkVotes} = this.props
+
+    if(frameworkVotes.length < 1){ return (
+      <CircularProgress style={styles.loader} size={50} />
+    )}
     return (
       <div>
         <TotalVotes frameworkVotes={frameworkVotes}/>
