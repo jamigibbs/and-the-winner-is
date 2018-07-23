@@ -17,7 +17,6 @@ describe('Public Routes', () => {
         .expect(200)
         .then(response => {
           expect(response.body).to.be.an('array')
-          expect(response.body).to.have.length(4)
         })
     })
   })
