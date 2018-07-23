@@ -59,6 +59,7 @@ class CompareTable extends React.Component {
 
   render() {
     const { frameworksInfo, order, orderBy, user, userVotes } = this.props
+    const githubRepo = 'https://github.com/'
 
     if(frameworksInfo.length < 1 && !user.email){ return (
       <CircularProgress style={styles.loader} size={50} />
@@ -82,7 +83,9 @@ class CompareTable extends React.Component {
                     <TableRow key={framework.id}>
                       <TableCell component="th" scope="row">
                         <img style={styles.logo} src={`img/${nameSplit(framework.fullName)}.png`} width={20} alt={framework.fullName} />
-                        {nameSplit(framework.fullName)}
+                        <a href={`${githubRepo}${framework.fullName}`} target="_blank">
+                          {nameSplit(framework.fullName)}
+                        </a>
                       </TableCell>
                       <TableCell numeric>{framework.watchersCount}</TableCell>
                       <TableCell numeric>{framework.forksCount}</TableCell>
