@@ -6,7 +6,11 @@ import user from './user'
 import githubFrameworks from './github-frameworks'
 import userActivity from './user-activity'
 
-const reducer = combineReducers({user, githubFrameworks, userActivity})
+const reducer = combineReducers({
+  user,
+  githubFrameworks,
+  userActivity
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -14,3 +18,5 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+export * from './github-frameworks'
+export * from './user-activity'

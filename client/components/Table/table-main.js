@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table, TableBody, TableCell, TableRow, Paper, CircularProgress } from '@material-ui/core'
 import { CompareTableHead, FrameworkVote } from './'
-import { getFrameworksInfo, updatedSortOrder } from '../../store/github-frameworks'
+import { getFrameworksInfo, updatedSortOrder } from '../../store'
 import { nameSplit } from '../../../util'
 
 const styles = {

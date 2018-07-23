@@ -25,7 +25,7 @@ session.run('CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE')
 } )
 
 session.run(`CREATE
-(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password: {password}, createdDate: {dateTime},isAdmin:true}),
+(sharkweek:User {name: 'shark@week.com', email:'shark@week.com',password: {password}, createdDate: {dateTime},isAdmin:true, salt: {salt}}),
 (dragonslayer:User {name:'dragon@slayer.com', email:'dragon@slayer.com', password: {password}, createdDate: {dateTime},isAdmin:false, salt: {salt}}),
 (superfly:User {name:'super@fly.com', email:'super@fly.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),
 (testUser:User {name:'test@user.com', email:'test@user.com',password: {password}, createdDate: {dateTime}, isAdmin:false, salt: {salt}}),

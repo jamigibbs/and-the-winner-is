@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
-import { voteForFramework } from '../../store/user-activity'
-import { getAllFrameworkVotes } from '../../store/github-frameworks'
+import { voteForFramework, getAllFrameworkVotes } from '../../store'
 
 class FrameworkVote extends Component {
 
