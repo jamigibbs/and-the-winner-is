@@ -1,5 +1,5 @@
 const { session, driver } = require('../server/db')
-const { seedPW } = require('../secrets')
+const { seedPW } = process.env.SEEDPW || '4321'
 const crypto = require('crypto')
 
 const now = new Date()
