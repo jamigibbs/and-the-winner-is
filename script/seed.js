@@ -43,7 +43,7 @@ session.run(`CREATE
 (user10:User {name:'user10@user.com', email:'user10@user.com',password: {password}, salt:{salt}, createdDate: {dateTime}, isAdmin:false}),
 
 (React:Framework {name:'react', createdDate: {dateTime}}),
-(Angular:Framework {name:'angular.js', createdDate: {dateTime}}),
+(Angular:Framework {name:'angular', createdDate: {dateTime}}),
 (Ember:Framework {name:'ember.js', createdDate: {dateTime}}),
 (Vue:Framework {name:'vue', createdDate: {dateTime}}),
 
