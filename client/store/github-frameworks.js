@@ -14,7 +14,7 @@ export const updatedSortOrder = (order, orderBy) => ({
 export const getFrameworksInfo = () => {
   return async dispatch => {
     try {
-      const response = await fetch('https://api.github.com/search/repositories?q=repo:angular/angular.js%20repo:facebook/react%20repo:emberjs/ember.js%20repo:vuejs/vue')
+      const response = await fetch('https://api.github.com/search/repositories?q=repo:angular/angular%20repo:facebook/react%20repo:emberjs/ember.js%20repo:vuejs/vue')
       const data = await response.json()
       dispatch(gotAllFrameworksInfo(data.items))
     } catch (err) { console.log(err) }
