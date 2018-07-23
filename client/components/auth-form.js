@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import { countries } from './countries'
+import { countries } from '../countries'
 import {Grid, FormControl, Input, InputLabel, Button} from '@material-ui/core'
 
 import { auth } from '../store'

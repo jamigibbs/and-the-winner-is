@@ -6,14 +6,14 @@ const crypto = require('crypto')
 
 const user = {
   email: 'testing@user.com',
-  password: '1234',
+  password:  {password},
 }
 
 const createTestUser = async () => {
   const salt = crypto.randomBytes(16).toString('base64')
   const password = crypto
     .createHash('RSA-SHA256')
-    .update('1234')
+    .update( {password})
     .update(salt)
     .digest('hex')
 
