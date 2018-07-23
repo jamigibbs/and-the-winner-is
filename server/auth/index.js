@@ -24,7 +24,7 @@ router.post('/signup', async (req, res, next) => {
 
     const query = `
     MERGE (c:Country {code: {countryCode}, name: {countryName}})
-    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, createdDate: {datetime}, isAdmin: false, salt: {salt}})-[:LOCATION]->(c)
+    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, createdDate: {datetime}, isAdmin: false})-[:LOCATION]->(c)
     RETURN newuser`
 
     const response = await session.run(query, {
