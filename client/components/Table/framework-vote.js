@@ -47,7 +47,6 @@ class FrameworkVote extends Component {
   render(){
     const { name, userVotes } = this.props
     let daysSinceLastVote = this.daysSinceLastVote()
-
     return (
       <div>
         { userVotes.length === 0 &&
