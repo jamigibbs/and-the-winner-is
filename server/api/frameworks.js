@@ -29,15 +29,15 @@ router.get('/:countryCode/votes', async (req, res, next) => {
     const code = req.params.countryCode
 
     const query = `
-      MATCH (c:Country {code: {code}})<-[:LOCATION]-(u:User)-[:VOTED*]->(v:Vote {status: 'latest'})-[:FRAMEWORK]->(f:Framework)
-      RETURN f.name as framework, count(v) as votes
+    MATCH (c:Country {code: {code}})<-[:LOCATION]-(u:User)-[:VOTED*]->(v:Vote {status: 'latest'})-[:FRAMEWORK]->(f:Framework)
+    RETURN f.name as framework, count(v) as votes
     `
 
     const data = await session.run(query, {code})
 
     const votes = data.records.map(record => {
       const framework = record._fields[0]
-      const total = record._fieldLookup.votes
+      const total = record._fields[1].low
       return { framework, total}
     })
 
