@@ -14,9 +14,6 @@ install:
 before_deploy:
   - npm run build-client
   - rm -rf node_modules
-branches:
-  only:
-    - master
 deploy:
   skip_cleanup: true
   provider: heroku
