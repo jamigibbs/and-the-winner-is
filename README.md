@@ -36,6 +36,13 @@ To install the application on your local environment:
 
 You can also view the deployed app at: [https://and-the-winner-is.herokuapp.com/](https://and-the-winner-is.herokuapp.com/)
 
+## Tests
+
+To view current test status:
+
+1. On local environemnt, run `npm test`, or
+2. On Travis, view testing status [here](https://travis-ci.org/jamigibbs/and-the-winner-is)
+
 ## Framework Development Criteria
 
 The three repository values selected were chosen for the following reasons:
