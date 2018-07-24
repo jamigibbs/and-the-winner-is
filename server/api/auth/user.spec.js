@@ -52,7 +52,7 @@ describe("Authed Routes", () => {
     session.close()
   })
 
-  xit('GET: api/auth/user/votes/all/?email=example@email.com', () => {
+  it('GET: api/auth/user/votes/all/?email=example@email.com', () => {
     return promisedAuthRequest().then(authenticatedagent => {
       const req = authenticatedagent.get(`/api/auth/user/votes/all/?email=${user.email}`)
         .expect(200)
