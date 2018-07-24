@@ -10,6 +10,8 @@ The criteria for comparing active development for each framework will be based o
 - Repository Forks
 - Open Issues
 
+![And the winner is](https://d.pr/i/qOMwuc+)
+
 ## Technology
 
 This application uses the following technologies:
