@@ -32,7 +32,8 @@ To install the application on your local environment:
 2. Install the dependencies: `npm install`
 3. Download and install the [Neo4j ](https://neo4j.com/download/) desktop
 4. In the Neo4j desktop, create a new graph database with user `neo4j` and password `1234`.  _Note: In production, variables are stored as node environment variables._
-5. To start the application, run `npm run start-dev` and navigate to `http://localhost:8080/`
+5. Run the seed file with `npm run seed`
+6. To start the application, run `npm run start-dev` and navigate to `http://localhost:8080/`
 
 You can also view the deployed app at: [https://and-the-winner-is.herokuapp.com/](https://and-the-winner-is.herokuapp.com/)
 
@@ -141,7 +142,7 @@ For authenticated users, endpoints are protected by authentication middleware to
 
 The bulk of the components are displayed on a single dashboard page with sections conditionally displayed based on login status.
 
-Basic design is provided by the Matieral UI library of HOCs with minor custon inline styles within individual components. If more style was required, I would have moved the inline styles to a separate SCSS folder for better management. But for the size of the current application, inline style on a component level is sufficient.
+Basic design is provided by the Matieral UI library of HOCs with minor custom inline styles within individual components. If more style was required, I would have moved the inline styles to a separate SCSS folder for better management. But for the size of the current application, inline style on a component level is sufficient.
 
 Lastly, updating framework info without a page refresh is handled on the component level with an `async` promise wrapped within a 10 minute `setInterval` to the Github API. I considered using websockets to handle the updates but ultimately decided that it would have been excessive for a minor API request. Websockets are a great choice for interactive communication sessions where you need to send and receive information but in this case, we're only requesting and receiving so a standard interval sufficed.
 
