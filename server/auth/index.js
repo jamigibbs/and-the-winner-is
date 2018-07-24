@@ -22,10 +22,10 @@ router.post('/signup', async (req, res, next) => {
       .update(salt)
       .digest('hex')
 
-    const query = `
-    MERGE (c:Country {code: {countryCode}, name: {countryName}})
-    CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, createdDate: {datetime}, isAdmin: false})-[:LOCATION]->(c)
-    RETURN newuser`
+      const query = `
+      MERGE (c:Country {code: {countryCode}, name: {countryName}})
+      CREATE (newuser:User {name: {email}, username: {email}, email: {email}, password: {password}, createdDate: {datetime}, isAdmin: false})-[:LOCATION]->(c)
+      RETURN newuser`
 
     const response = await session.run(query, {
       email,
@@ -38,7 +38,11 @@ router.post('/signup', async (req, res, next) => {
 
     const user = response.records[0]._fields[0].properties
 
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(user, (err) => {
+      if (err) { next(err) }
+      res.cookie('atwi', new Date())
+      res.json(user)
+    })
 
     driver.close()
     session.close()
@@ -56,46 +60,36 @@ router.post('/login', async (req, res, next) => {
     const email = req.body.email
     const pass = req.body.password
 
-    //check if user exists
-    let query = `
-    MATCH (u:User)
-    WHERE u.email = {email}
-    RETURN u`
+    let query = `MATCH (u:User)
+      WHERE u.email = {email}
+      RETURN u`
 
     let response = await session.run(query, {email})
     let user = response.records[0]._fields[0].properties
 
-    //if the pw is salted in the database
-    if (user.salt) {
-      const saltedPW = crypto
-        .createHash('RSA-SHA256')
-        .update(pass)
-        .update(user.salt)
-        .digest('hex')
+    const saltedPW = crypto
+      .createHash('RSA-SHA256')
+      .update(pass)
+      .update(user.salt)
+      .digest('hex')
 
-      query = `MATCH (u:User)
-        WHERE u.email = {email} and u.password = {password}
-        RETURN properties(u)
-      `
-      response = await session.run(query, {email, password: saltedPW})
-    } else {
-      // seed file user without salted pw
-      query = `MATCH (u:User)
-        WHERE u.email = {email} and u.password = {pass}
-        RETURN properties(u)
-      `
-      response = await session.run(query, {email, pass})
-    }
+    query = `MATCH (u:User)
+      WHERE u.email = {email} and u.password = {password}
+      RETURN properties(u)`
 
+    response = await session.run(query, {email, password: saltedPW})
     user = response.records[0]._fields[0]
 
-    res.cookie('atwi', new Date())
-    req.login(user, err => (err ? next(err) : res.json(user)))
+    req.login(user, (err) => {
+      if (err) { next(err) }
+      res.cookie('atwi', new Date())
+      res.json(user)
+    })
 
     driver.close()
     session.close()
   } catch (err) {
-    res.status(401).send('Wrong username or password')
+    res.status(401).send('User doesn\'t exist or wrong username/password')
   }
 })
 
