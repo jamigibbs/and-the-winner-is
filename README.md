@@ -40,7 +40,7 @@ You can also view the deployed app at: [https://and-the-winner-is.herokuapp.com/
 
 To view current test status:
 
-1. On local environemnt, run `npm test`, or
+1. On a local environment, run `npm test`, or
 2. On Travis, view testing status [here](https://travis-ci.org/jamigibbs/and-the-winner-is)
 
 ## Framework Development Criteria
@@ -80,7 +80,7 @@ Evaluating the number of open issues can be considered in two different ways. A 
 
 ##### Framework Comparison Table
 - Each framework is listed within a table where each development criteria presented to the user
-- Frameworks can be sorted by each criteria to make comparisions easier
+- Frameworks can be sorted by each criteria to make comparisons easier
 - The user will have access to voting within the comparison table (when logged in) or asked to log in to vote.
 - A voting message conditionally displays depending on if the user has voted in the last 24 hours or not.
 - If a user had voted over 24 hours ago, they're given the option to change their vote to a different framework.
@@ -103,9 +103,13 @@ Because we're tracking each user's country of origin as well as historical votin
 
 While that type of querying is out of scope for this project, the database scheme is designed so that it can manage them if needed. For example, we can return specific framework voting results by country with the following api route:
 
-Votes from the United States: [https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes)
+Votes from the United States:
 
-Votes from the UK: [https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes)
+[https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes)
+
+Votes from the UK:
+
+[https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes)
 
 And of course we can also query for an overall tally of total latest votes:
 
@@ -118,11 +122,11 @@ And of course we can also query for an overall tally of total latest votes:
 
 #### Database
 
-Designing the database schema was my first task as that would set the foundation for the steps following it. I spent some time considering if I could (or should) keep track of a user's voting history because a) it wasn't explicitly set in the requirements of this project and b) it would add a layer of complexity that may not necessarily be worth the effort.
+Designing the database schema was my first task as that would set the foundation for the steps following it. I spent some time considering if I could (or should) keep track of a user's voting history because a) it wasn't explicitly set in the requirements of this project and b) it would add a layer of complexity that may not be worth the effort.
 
 Ultimately, I decided that the complexity wouldn't bring much additional overhead and I could still meet the project requirements; a single user vote tallied for each framework.
 
-Each vote could also be given a relationship with it's respective framework and adding a country node was a natural addition which allowed the graph to truly show interesting relationships between users, countries, and votes. With that decided, the Neo4j graph database seemed like a natural fit.
+Each vote could also be given a relationship with its respective framework and adding a country node was a natural addition which allowed the graph to truly show interesting relationships between users, countries, and votes. With that decided, the Neo4j graph database seemed like a natural fit.
 
 To meet the basic requirements of the project, each user's set of votes are treated like linked lists where we can traverse the list to the last voting node where the most recent vote would be found.
 
@@ -137,9 +141,9 @@ For authenticated users, endpoints are protected by authentication middleware to
 
 The bulk of the components are displayed on a single dashboard page with sections conditionally displayed based on login status.
 
-Basic design is relied on from the Matieral UI library of HOCs with minor inline style updates within individual components. If more style would have been required, I would have moved the inline styles to a separate SCSS folder for better management. But for the size of the current application, inline style is more readable.
+Basic design is provided by the Matieral UI library of HOCs with minor custon inline styles within individual components. If more style was required, I would have moved the inline styles to a separate SCSS folder for better management. But for the size of the current application, inline style on a component level is sufficient.
 
-Lastly, updating framework info without a page refresh is handled on the component level with an `async` promise wrapped within a 10 minute `setInterval`. I considered using websockets to handle the updates but ultimately decided that it would have been overkill for a minor one-way API request. Websockets are a great choice for interactive communication sessions where you need to send and receive information but in this case, we're only receiving information so a standard interval would suffice.
+Lastly, updating framework info without a page refresh is handled on the component level with an `async` promise wrapped within a 10 minute `setInterval` to the Github API. I considered using websockets to handle the updates but ultimately decided that it would have been excessive for a minor API request. Websockets are a great choice for interactive communication sessions where you need to send and receive information but in this case, we're only requesting and receiving so a standard interval sufficed.
 
 #### Routes
 
@@ -156,7 +160,6 @@ Lastly, updating framework info without a page refresh is handled on the compone
 `POST: /api/auth/user/vote`
 
 **Account Management Routes**
-
 
 `POST: /signup`
 
