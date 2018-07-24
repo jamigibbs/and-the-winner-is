@@ -1,6 +1,8 @@
+[![https://travis-ci.com/jamigibbs/and-the-winner-is.svg?token=5qTyNJNg7cDN6W8KgZtb&branch=master](https://travis-ci.com/jamigibbs/and-the-winner-is)
+
 # And the winner is...
 
-Evaluating client-side Javascript frameworks can be difficult. This app helps make that process a little bit easier. By comparing the Github repository information for the 4 major JS frameworks ([Ember](https://github.com/emberjs/ember.js/), [React](https://github.com/facebook/react), [Angular](https://github.com/angular/angular), and [Vue](https://github.com/vuejs/vue)), we just might get a better sense of which framework is most actively being developed.
+Evaluating client-side Javascript frameworks can be difficult. This app helps make that process a little bit easier. By comparing the Github repository information for 4 major JS frameworks ([Ember](https://github.com/emberjs/ember.js/), [React](https://github.com/facebook/react), [Angular](https://github.com/angular/angular), and [Vue](https://github.com/vuejs/vue)), we can get a better sense of which framework is most actively being developed.
 
 The criteria for comparing active development for each framework will be based on the following:
 
@@ -26,9 +28,9 @@ To install the application on your local environment:
 1. Clone or fork this repository: `git clone https://github.com/jamigibbs/and-the-winner-is`
 
 2. Install the dependencies: `npm install`
-3. Download and install [Neo4j ](https://neo4j.com/download/) desktop
-4. In the Neo4j deskop, create a new graph database with user `neo4j` and password `1234`.  _Note: The production environment stores sensitive information in node environment variables different from these values._
-5. To start the application, run `npm run start-dev` and navigation to `http://localhost:8080/`
+3. Download and install the [Neo4j ](https://neo4j.com/download/) desktop
+4. In the Neo4j desktop, create a new graph database with user `neo4j` and password `1234`.  _Note: In production, variables are stored as node environment variables._
+5. To start the application, run `npm run start-dev` and navigate to `http://localhost:8080/`
 
 You can also view the deployed app at: [https://and-the-winner-is.herokuapp.com/](https://and-the-winner-is.herokuapp.com/)
 
@@ -53,7 +55,10 @@ Evaluating the number of open issues can be considered in two different ways. A 
 - A user can only create a single account with their email
 - A user will not be able to create multiple accounts with different emails
 - On account creation, the user is asked to supply their country of origin
-- Passwords are salted and hashed for additional security
+- Passwords are [salted and hashed](https://nodejs.org/api/crypto.html) for additional security
+
+![user login](https://d.pr/i/Q0iOc6+)
+
 
 ##### User voting system
 - Each user can only vote for a single JS framework
@@ -61,10 +66,18 @@ Evaluating the number of open issues can be considered in two different ways. A 
 - The system keeps track of all user votes but only displays the total for each framework of the user's _latest_ vote.
 - When logged in, the app will display to the user a historical list of votes
 
+![framework comparison table](https://d.pr/i/F0GNJS+)
+
+
 ##### Framework Comparison Table
-- Each framework is listed within a table with each development criteria prestend to the user
+- Each framework is listed within a table where each development criteria presented to the user
 - Frameworks can be sorted by each criteria to make comparisions easier
 - The user will have access to voting within the comparison table (when logged in) or asked to log in to vote.
+- A voting message conditionally displays depending on if the user has voted in the last 24 hours or not.
+- If a user had voted over 24 hours ago, they're given the option to change their vote to a different framework.
+
+![framework comparison table](https://d.pr/i/a2imz5+)
+
 
 ##### Graph Database
 By using a graph database, we can not only display the total number of votes each framework has collected but we can also visualize a number of interesting patterns.
@@ -75,18 +88,69 @@ Because we're tracking each user's country of origin as well as historical votin
 - If a user changes their vote to something else, is there a common pattern? (ie. React to Vue)
 - Are there common threads between different countries?
 - Is there a pattern of when different countries are changing to different frameworks and how quickly?
+- How often does someone change to a different framework and is there a common switch?
 
-While that type of querying is out of scope for this project, the database scheme is designed so that it can manage those types of queries if needed.
+![Graph database with seed content](https://d.pr/i/4DssdG+)
 
-For example, we can return specific framework voting results by country with the following api route:
+While that type of querying is out of scope for this project, the database scheme is designed so that it can manage them if needed. For example, we can return specific framework voting results by country with the following api route:
 
-[https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes)
+Votes from the United States: [https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/US/votes)
 
-[https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes)
+Votes from the UK: [https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/UK/votes)
 
-And of course we can also query for a simple tally of total latest votes:
+And of course we can also query for an overall tally of total latest votes:
 
 [https://and-the-winner-is.herokuapp.com/api/frameworks/latest/votes](https://and-the-winner-is.herokuapp.com/api/frameworks/latest/votes)
 
+![Total Votes](https://d.pr/i/86pifR+)
+
+
 ## Application Design Approach
 
+#### Database
+
+Designing the database schema was my first task as that would set the foundation for the steps following it. I spent some time considering if I could (or should) keep track of a user's voting history because a) it wasn't explicitly set in the requirements of this project and b) it would add a layer of complexity that may not necessarily be worth the effort.
+
+Ultimately, I decided that the complexity wouldn't bring much additional overhead and I could still meet the project requirements; a single user vote tallied for each framework.
+
+Each vote could also be given a relationship with it's respective framework and adding a country node was a natural addition which allowed the graph to truly show interesting relationships between users, countries, and votes. With that decided, the Neo4j graph database seemed like a natural fit.
+
+To meet the basic requirements of the project, each user's set of votes are treated like linked lists where we can traverse the list to the last voting node where the most recent vote would be found.
+
+![User votes](https://d.pr/i/Mo9Cmq+)
+
+
+#### Front End
+
+Using React for the user interface, Redux for state management, and Express for API endpoints, I divided the dashboard into two types: authenticated and unauthenticated.
+
+For authenticated users, endpoints are protected by authentication middleware to check if the correct user is logged in for the requested data.
+
+The bulk of the components are displayed on a single dashboard page with sections conditionally displayed based on login status.
+
+Basic design is relied on from the Matieral UI library of HOCs with minor inline style updates within individual components. If more style would have been required, I would have moved the inline styles to a separate SCSS folder for better management. But for the size of the current application, inline style is more readable.
+
+Lastly, updating framework info without a page refresh is handled on the component level with an `async` promise wrapped within a 10 minute `setInterval`. I considered using websockets to handle the updates but ultimately decided that it would have been overkill for a minor one-way API request. Websockets are a great choice for interactive communication sessions where you need to send and receive information but in this case, we're only receiving information so a standard interval would suffice.
+
+#### Routes
+
+**Framework Routes**
+
+`GET: /api/frameworks/latest/votes`
+
+`GET: /api/frameworks/:countryCode/votes`
+
+**Authenticated Routes**
+
+`GET: /api/auth/user/votes/all/?email=example@email.com`
+
+`POST: /api/auth/user/vote`
+
+**Account Management Routes**
+
+
+`POST: /signup`
+
+`POST: /login`
+
+`POST: /logout`
