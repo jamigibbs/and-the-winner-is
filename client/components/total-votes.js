@@ -30,7 +30,6 @@ const TotalVotes = ({ frameworkVotes }) => {
       <Grid item xs={12}>
         <Grid container justify="center" spacing={16}>
         {frameworkVotes.map((framework) => {
-          console.log('framework.name', framework.name)
           return (
             <Grid key={framework.name} item>
               <Card style={styles.card}>
