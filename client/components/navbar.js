@@ -24,6 +24,7 @@ const Navbar = ({handleClick, isLoggedIn, user}) => (
       <Link to="/" style={styles.flex}>
         <h1 style={styles.logo}>And the winner is...</h1>
       </Link>
+      <Link to="/about">About</Link>
         {isLoggedIn ? (
           <div>
             <span>Hello, {user.email}!</span>
@@ -33,7 +34,7 @@ const Navbar = ({handleClick, isLoggedIn, user}) => (
           </div>
         ) : (
           <div>
-            <Link to="/login">Login</Link>
+            <Link style={styles.link} to="/login">Login</Link>
             <Link style={styles.link} to="/signup">Sign Up</Link>
           </div>
         )}
