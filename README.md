@@ -1,4 +1,4 @@
-[![https://travis-ci.com/jamigibbs/and-the-winner-is.svg?token=5qTyNJNg7cDN6W8KgZtb&branch=master](https://travis-ci.com/jamigibbs/and-the-winner-is)
+[![Build Status](https://travis-ci.org/jamigibbs/and-the-winner-is.svg?branch=master)](https://travis-ci.org/jamigibbs/and-the-winner-is)
 
 # And the winner is...
 
