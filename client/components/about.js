@@ -26,6 +26,7 @@ const About = () => {
             <p>
               After you sign-up, you'll be able to vote for a framework. You'll be able to change your vote after a 24 hour waiting period. Only your most recent vote will count against the total votes tally.
             </p>
+            <p><a href="https://github.com/jamigibbs/and-the-winner-is">View on Github</a></p>
           </Paper>
           </Grid>
         </Grid>
