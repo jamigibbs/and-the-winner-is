@@ -40,7 +40,9 @@ const createApp = () => {
 
   app.use(
     expressSession({
-      secret: process.env.SESSION_SECRET || 'super secret squirrel secret'
+      secret: process.env.SESSION_SECRET || 'super secret squirrel secret',
+      resave: false,
+      saveUninitialized: true
     })
   )
 
